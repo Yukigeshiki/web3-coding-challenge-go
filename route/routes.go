@@ -11,4 +11,6 @@ func Routes(api *gin.RouterGroup) {
 	h := new(handler.Handler)
 
 	api.GET("/healthcheck", h.CheckApiHealth)
+
+	api.GET("/transfers", h.GetTransfers)
 }
