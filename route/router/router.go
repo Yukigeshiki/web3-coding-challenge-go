@@ -4,7 +4,10 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"robothouse.ui/web3-coding-challenge/config"
+	eth "robothouse.ui/web3-coding-challenge/lib/ethereum"
 	"robothouse.ui/web3-coding-challenge/lib/middleware"
+	repo "robothouse.ui/web3-coding-challenge/repository"
 	"robothouse.ui/web3-coding-challenge/route"
 	"time"
 )
@@ -25,6 +28,34 @@ func InitGinRouterEngine() (*gin.Engine, error) {
 	}))
 
 	api := router.Group("erc20/contract")
+
+	// get ERC20 contract instances
+	instHTTP, err := eth.GetContractInstance(config.EthClientURLHTTP, config.ERC20ContractAddr)
+	if err != nil {
+		return nil, err
+	}
+	instWS, err := eth.GetContractInstance(config.EthClientURLWS, config.ERC20ContractAddr)
+	if err != nil {
+		return nil, err
+	}
+
+	/*
+		Initialise repository (populate in-memory cache)
+		This can be done in a separate thread, but the trade-off between having a long start-up time and data consistency
+		rather than a short start-up time and data inconsistency seems worthwhile if your application is not going to be
+		restarting often, i.e. you're not running in a serverless environment.
+		Caching of this type could also be done using Redis in which case a separate service would be responsible for
+		populating and updating the data.
+	*/
+	err = repo.InitialiseRepo(instHTTP)
+	if err != nil {
+		return nil, err
+	}
+	/*
+		Initialise repo live update (live update in-memory cache)
+		This would also be the responsibility of the same separate service as mentioned above if using Redis.
+	*/
+	go repo.InitialiseRepoLiveUpdate(instWS)
 
 	// add incoming request logging middleware
 	api.Use(middleware.LogIncomingRequest)
