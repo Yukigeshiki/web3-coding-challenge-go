@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	res "robothouse.ui/web3-coding-challenge/lib/response"
+	val "robothouse.ui/web3-coding-challenge/lib/validation"
 	tf "robothouse.ui/web3-coding-challenge/repository/transfers"
 	"strconv"
 	"strings"
@@ -21,41 +23,60 @@ func (h *Handler) CheckApiHealth(ctx *gin.Context) {
 
 // GetTransfers fetches an array of transfer logs
 func (h *Handler) GetTransfers(ctx *gin.Context) {
+	p := new(params)
+	reqID := ctx.MustGet("requestID").(string)
+	if err := ctx.Bind(p); err != nil {
+		res.FailBadRequest(ctx, reqID, err.Error())
+		return
+	}
+	if errs := val.Validate(ctx, p); errs != nil {
+		res.FailBadRequest(ctx, reqID, errs)
+		return
+	}
+	fOpts, err := p.toFilterOpts()
+	if err != nil {
+		res.FailBadRequest(ctx, reqID, err.Error())
+		return
+	}
+
+	res.Success(ctx, reqID, tf.GetLogs(fOpts, &reqID))
+}
+
+// params are the GetTransfers request query parameters
+type params struct {
+	From  string `form:"from" validate:"omitempty,eth_addr"`
+	To    string `form:"to" validate:"omitempty,eth_addr"`
+	Above string `form:"above" validate:"omitempty,number"`
+	Below string `form:"below" validate:"omitempty,number"`
+}
+
+// toFilterOpts maps GetTransfers query params to *transfers.FilterOpts
+func (p *params) toFilterOpts() (*tf.FilterOpts, error) {
 	var (
 		from, to     string
 		above, below int64
 	)
 
-	reqID := ctx.MustGet("requestID").(string)
+	f, t, a, b := p.From, p.To, p.Above, p.Below
 
-	// check "from" and "to" params - must validate these beforehand
-	f, okF := ctx.GetQuery("from")
-	if okF {
+	// check and convert "from" and "to" params
+	if f != "" {
 		from = strings.ToLower(f)
 	}
-	t, okT := ctx.GetQuery("to")
-	if okT {
+	if t != "" {
 		to = strings.ToLower(t)
 	}
 	// fetching all is disabled
-	if !okF && !okT {
-		res.FailBadRequest(ctx, reqID, "Please supply at least one address")
-		return
+	if f == "" && t == "" {
+		return nil, errors.New("please supply at least one address")
 	}
-
-	// check "above" and "below" params - must validate these beforehand
-	if a, ok := ctx.GetQuery("above"); ok {
+	// check and convert "above" and "below" params
+	if a != "" {
 		above, _ = strconv.ParseInt(a, bDec, bitSize)
 	}
-	if b, ok := ctx.GetQuery("below"); ok {
+	if b != "" {
 		below, _ = strconv.ParseInt(b, bDec, bitSize)
 	}
 
-	logs, err := tf.GetLogs(&tf.FilterOpts{From: from, To: to, Above: above, Below: below})
-	if err != nil {
-		res.FailInternalServerError(ctx, reqID, err.Error())
-		return
-	}
-
-	res.Success(ctx, reqID, logs)
+	return &tf.FilterOpts{From: from, To: to, Above: above, Below: below}, nil
 }
