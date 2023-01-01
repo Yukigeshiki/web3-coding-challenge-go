@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"net/http"
 	"robothouse.ui/web3-coding-challenge/config"
 	eth "robothouse.ui/web3-coding-challenge/lib/ethereum"
@@ -56,6 +57,9 @@ func InitGinRouterEngine() (*gin.Engine, error) {
 		This would also be the responsibility of the same separate service as mentioned above if using Redis.
 	*/
 	go repo.InitialiseRepoLiveUpdate(instWS)
+
+	// add validator to gin context
+	api.Use(func(ctx *gin.Context) { ctx.Set("validator", validator.New()) })
 
 	// add incoming request logging middleware
 	api.Use(middleware.LogIncomingRequest)

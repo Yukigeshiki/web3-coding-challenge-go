@@ -92,11 +92,11 @@ func CloseSubscriptionChannels() {
 
 // getAndIndexLog gets a transfer log from an event, indexes it, then returns it
 func getAndIndexLog(event *contracts.ERC20Transfer) (*types.Log, error) {
+	log := new(types.Log)
 	jsonBytes, err := event.Raw.MarshalJSON()
 	if err != nil {
 		return nil, err
 	}
-	log := new(types.Log)
 	if err = json.Unmarshal(jsonBytes, log); err != nil {
 		return nil, err
 	}

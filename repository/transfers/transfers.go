@@ -3,6 +3,7 @@ package transfers
 import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
+	l "robothouse.ui/web3-coding-challenge/lib/log"
 	"strconv"
 )
 
@@ -31,14 +32,9 @@ var (
 )
 
 // GetLogs fetches logs from the in-memory cache depending on the filter values
-func GetLogs(opts *FilterOpts) (LogSlice, error) {
+func GetLogs(opts *FilterOpts, reqID *string) (logs LogSlice) {
 
-	logs := make(LogSlice, 0)
-
-	f := opts.From
-	t := opts.To
-	a := opts.Above
-	b := opts.Below
+	f, t, a, b := opts.From, opts.To, opts.Above, opts.Below
 
 	switch {
 	case f != "" && t != "":
@@ -56,17 +52,18 @@ func GetLogs(opts *FilterOpts) (LogSlice, error) {
 		for _, log := range logs {
 			val, err := strconv.ParseInt(common.Bytes2Hex(log.Data), bHex, bitSize)
 			if err != nil {
-				return nil, err
+				l.Error("GetLogs: "+err.Error(), reqID)
+				continue
 			}
 			if (a > 0 && val < a) || (b > 0 && val > b) {
 				continue
 			}
 			logsFiltered = append(logsFiltered, log)
 		}
-		return logsFiltered, nil
+		return logsFiltered
 	}
 
-	return logs, nil
+	return logs
 }
 
 func init() {
