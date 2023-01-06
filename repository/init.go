@@ -14,11 +14,6 @@ import (
 
 const blockIncrement = 200_000
 
-var (
-	errChan = make(chan error, 1)
-	sink    = make(chan *contracts.ERC20Transfer)
-)
-
 // InitialiseRepo fetches transfer logs using an ERC20 contract instance and stores them in an in-memory cache
 func InitialiseRepo(inst *contracts.ERC20) error {
 	var (
@@ -61,6 +56,8 @@ func InitialiseRepo(inst *contracts.ERC20) error {
 
 // InitialiseRepoLiveUpdate creates a subscription to a contract's transfer logs, and indexes logs as they become available
 func InitialiseRepoLiveUpdate(inst *contracts.ERC20) {
+	sink := make(chan *contracts.ERC20Transfer)
+	errChan := make(chan error, 1)
 	ts := transferSubscription{
 		opts: new(bind.WatchOpts),
 		from: make([]common.Address, 0),
@@ -83,11 +80,6 @@ func InitialiseRepoLiveUpdate(inst *contracts.ERC20) {
 			//tf.All = append(tf.All, log)
 		}
 	}
-}
-
-func CloseSubscriptionChannels() {
-	close(errChan)
-	close(sink)
 }
 
 // getAndIndexLog gets a transfer log from an event, indexes it, then returns it
@@ -134,11 +126,9 @@ func (ts *transferSubscription) subscribe(inst *contracts.ERC20, sink chan<- *co
 
 	defer sub.Unsubscribe()
 
-	for {
-		select {
-		case err = <-sub.Err():
-			errChan <- err
-			return
-		}
+	select {
+	case err = <-sub.Err():
+		errChan <- err
+		return
 	}
 }
