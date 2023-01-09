@@ -3,7 +3,7 @@ package ethereum
 import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"robothouse.ui/web3-coding-challenge/lib/ethereum/contracts"
+	"robothouse.io/web3-coding-challenge/lib/ethereum/contracts"
 )
 
 func GetContractInstance(url, contractAddr string) (*contracts.ERC20, error) {

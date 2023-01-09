@@ -3,7 +3,7 @@ package transfers
 import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	l "robothouse.ui/web3-coding-challenge/lib/log"
+	l "robothouse.io/web3-coding-challenge/lib/log"
 	"strconv"
 )
 

@@ -5,11 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
-	"robothouse.ui/web3-coding-challenge/config"
-	eth "robothouse.ui/web3-coding-challenge/lib/ethereum"
-	"robothouse.ui/web3-coding-challenge/lib/middleware"
-	repo "robothouse.ui/web3-coding-challenge/repository"
-	"robothouse.ui/web3-coding-challenge/route"
+	"robothouse.io/web3-coding-challenge/config"
+	eth "robothouse.io/web3-coding-challenge/lib/ethereum"
+	"robothouse.io/web3-coding-challenge/lib/middleware"
+	repo "robothouse.io/web3-coding-challenge/repository"
+	"robothouse.io/web3-coding-challenge/route"
 	"time"
 )
 

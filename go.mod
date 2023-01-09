@@ -1,4 +1,4 @@
-module robothouse.ui/web3-coding-challenge
+module robothouse.io/web3-coding-challenge
 
 go 1.19
 

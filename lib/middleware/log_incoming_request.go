@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"io"
-	"robothouse.ui/web3-coding-challenge/lib/log"
-	res "robothouse.ui/web3-coding-challenge/lib/response"
+	"robothouse.io/web3-coding-challenge/lib/log"
+	res "robothouse.io/web3-coding-challenge/lib/response"
 )
 
 // LogIncomingRequest is used to log the incoming request data.
