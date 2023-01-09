@@ -6,10 +6,10 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	"robothouse.ui/web3-coding-challenge/config"
-	"robothouse.ui/web3-coding-challenge/lib/ethereum/contracts"
-	l "robothouse.ui/web3-coding-challenge/lib/log"
-	tf "robothouse.ui/web3-coding-challenge/repository/transfers"
+	"robothouse.io/web3-coding-challenge/config"
+	"robothouse.io/web3-coding-challenge/lib/ethereum/contracts"
+	l "robothouse.io/web3-coding-challenge/lib/log"
+	tf "robothouse.io/web3-coding-challenge/repository/transfers"
 )
 
 const blockIncrement = 200_000

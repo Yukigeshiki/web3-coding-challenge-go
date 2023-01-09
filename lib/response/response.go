@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	l "robothouse.ui/web3-coding-challenge/lib/log"
+	l "robothouse.io/web3-coding-challenge/lib/log"
 	"runtime/debug"
 )
 

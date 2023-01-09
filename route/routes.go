@@ -2,7 +2,7 @@ package route
 
 import (
 	"github.com/gin-gonic/gin"
-	"robothouse.ui/web3-coding-challenge/handler"
+	"robothouse.io/web3-coding-challenge/handler"
 )
 
 // Routes provides client request routing

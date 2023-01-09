@@ -3,9 +3,9 @@ package handler
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	res "robothouse.ui/web3-coding-challenge/lib/response"
-	val "robothouse.ui/web3-coding-challenge/lib/validation"
-	tf "robothouse.ui/web3-coding-challenge/repository/transfers"
+	res "robothouse.io/web3-coding-challenge/lib/response"
+	val "robothouse.io/web3-coding-challenge/lib/validation"
+	tf "robothouse.io/web3-coding-challenge/repository/transfers"
 	"strconv"
 	"strings"
 )
