@@ -22,8 +22,8 @@ Other requirements:
 PORT=8000
 ETH_CLIENT_URL_HTTP=https://mainnet.infura.io/v3/<your-api-key>
 ETH_CLIENT_URL_WS=wss://mainnet.infura.io/ws/v3/<your-api-key>
-ERC20_CONTRACT_ADDRESS=0x9355372396e3F6daF13359B7b607a3374cc638e0
-ERC20_CONTRACT_START_BLOCK=9987247
+ERC20_CONTRACT_ADDRESS=<your-contract-address>
+ERC20_CONTRACT_START_BLOCK=<start-block>
 ```
 
 ### Still needed

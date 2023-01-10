@@ -7,8 +7,8 @@ import (
 	"strconv"
 )
 
-// A very similar caching setup could be done using an external in-memory database like Redis, but I thought for
-// simplicity I'd do it here in the application.
+// A very similar caching setup could be done using an external in-memory DB like Redis, or even a SQL DB like Postgres,
+// but I thought for simplicity I'd do it here in the application.
 
 const (
 	bHex    int = 16
