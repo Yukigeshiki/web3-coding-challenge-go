@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "9d8153dc-4af8-471c-b156-c096c59d5391",
+		"name": "roll-take-home-challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13901883"
+	},
+	"item": [
+		{
+			"name": "fetch-erc20-transfer-logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/erc20/contract/transfers?from=0xf16E9B0D03470827A95CDfd0Cb8a8A3b46969B91&to=0x87d9dA48dB6e1F925CB67d3b7d2a292846c24cf7&above=11900000&below=12090000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"erc20",
+						"contract",
+						"transfers"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "0xf16E9B0D03470827A95CDfd0Cb8a8A3b46969B91"
+						},
+						{
+							"key": "to",
+							"value": "0x87d9dA48dB6e1F925CB67d3b7d2a292846c24cf7"
+						},
+						{
+							"key": "above",
+							"value": "11900000"
+						},
+						{
+							"key": "below",
+							"value": "12090000"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
