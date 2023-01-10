@@ -54,7 +54,7 @@ func InitialiseRepo(inst *contracts.ERC20) error {
 	return nil
 }
 
-// InitialiseRepoLiveUpdate creates a subscription to a contract's transfer logs, and indexes logs as they become available
+// InitialiseRepoLiveUpdate creates a subscription to a contract's transfer logs, and indexes logs as they confirm
 func InitialiseRepoLiveUpdate(inst *contracts.ERC20) {
 	sink := make(chan *contracts.ERC20Transfer)
 	errChan := make(chan error, 1)
@@ -105,7 +105,7 @@ func getAndIndexLog(event *contracts.ERC20Transfer) (*types.Log, error) {
 	return log, nil
 }
 
-// getStringAddress takes an address hash and coverts it into a hex string representation
+// getStringAddress takes an address hash and converts it into a hex string representation
 func getStringAddress(a common.Hash) string {
 	return "0x" + fmt.Sprintf("%x", a.Big())
 }
@@ -129,6 +129,5 @@ func (ts *transferSubscription) subscribe(inst *contracts.ERC20, sink chan<- *co
 	select {
 	case err = <-sub.Err():
 		errChan <- err
-		return
 	}
 }
