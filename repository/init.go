@@ -126,8 +126,6 @@ func (ts *transferSubscription) subscribe(inst *contracts.ERC20, sink chan<- *co
 
 	defer sub.Unsubscribe()
 
-	select {
-	case err = <-sub.Err():
-		errChan <- err
-	}
+	err = <-sub.Err()
+	errChan <- err
 }
