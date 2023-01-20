@@ -8,13 +8,11 @@ import (
 
 func main() {
 
-	// initialise new gin engine
-	e, err := router.InitGinRouterEngine()
+	e, err := router.InitGinServer()
 	if err != nil {
 		panic(err)
 	}
 
-	// determine HTTP port
 	p := config.Port
 	if p == "" {
 		p = "8080"

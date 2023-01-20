@@ -13,8 +13,8 @@ import (
 	"time"
 )
 
-// InitGinRouterEngine is used to initialise gin routing
-func InitGinRouterEngine() (*gin.Engine, error) {
+// InitGinServer is used to initialise the application (CORS, routing, repository and middleware)
+func InitGinServer() (*gin.Engine, error) {
 
 	router := gin.New()
 
