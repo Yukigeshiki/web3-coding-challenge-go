@@ -13,7 +13,8 @@ import (
 	"time"
 )
 
-// InitGinServer is used to initialise the application (CORS, routing, repository and middleware)
+// InitGinServer is used to initialise the application (CORS, routing, repository and middleware) and return a Gin
+// router engine instance
 func InitGinServer() (*gin.Engine, error) {
 
 	router := gin.New()
